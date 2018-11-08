@@ -25,7 +25,7 @@ static char		*get_tetro_struct(char *tetro_blocki)
 	int			i;
 	t_tetro		*tetro_struct;
 
-	if (!(tetro_struct = (t_tetro *)malloc(sizeof(tetro_struct))))
+	if (!(tetro_struct = (t_tetro *)malloc(sizeof(*tetro_struct))))
 		return (NULL);
 	i = -1;
 	while (++i < 4)
@@ -43,9 +43,31 @@ static char		*get_tetro_struct(char *tetro_blocki)
 	return (tetro_struct);
 }
 
-static char		*create_board(char **tetro_list, int tetro_vld)
+static char		*create_board(t_tetro **tetro_list, int tetro_vld)
 {
+	t_board		*board;
+	int			i;
+	int			j;
+	char		**board_state;
 
+	if (board = (t_board *)malloc(sizeof(*board)))
+		return (NULL);
+	board->tetro_vld = tetro_vld;
+	board->size = (int)ft_sqrt(tetro_vld * 4);
+	board->tetro_list = tetro_list;
+	if (!(board_state = (char **)malloc(sizeof(**board_state) * board->size)))
+		return (NULL);
+	i = -1;
+	while (++i < board->size)
+	{
+		if (!(board_state[i] = ft_strnew(board->size + 1)))
+			return (NULL);
+		j = -1;
+		while (++j < board->size)
+			board_state[i][j] = '.';
+	}
+	board->broad_state = board_state;
+	return (board);
 }
 
 t_board			*get_board(char **tetro_block, int tetro_vld)

@@ -30,7 +30,7 @@ typedef struct	s_board
 {
 	t_tetro		**tetro_list;
 	char		**broad_state;
-	int			broad_size;
+	int			size;
 	int			tetro_vld;
 }				t_board;
 
@@ -39,8 +39,6 @@ typedef struct	s_board
 */
 
 int				fillit(char *filename);
-char			*get_whole_file(char *filename);
-char			**get_tetro_block(char *whole_file, int tetro_vld);
 
 /*
 ** Check if input is valid

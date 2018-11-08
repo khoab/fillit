@@ -14,7 +14,7 @@
 #include "fillit.h"
 #include "libft.h"
 
-char	*get_whole_file(char *filename)
+static char	*get_whole_file(char *filename)
 {
 	int		fd;
 	int		size;
@@ -27,13 +27,12 @@ char	*get_whole_file(char *filename)
 	buffer[size] = '\0';
 	if (size % 21 != 0 || (41 < size && size < 548))
 		return (NULL);
-	if (!(whole_file = (char *)malloc(sizeof(char) * (size + 1))))
-		return (NULL);
+	whole_file = (char *)malloc(sizeof(char) * (size + 1));`
 	whole_file = ft_strcpy(whole_file, buffer);
 	return (whole_file);
 }
 
-char	**get_tetro_block(char *whole_file, int tetro_vld)
+static char		**get_tetro_block(char *whole_file, int tetro_vld)
 {
 	int		i;
 	int		j;
