@@ -6,7 +6,7 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 13:33:30 by kbui              #+#    #+#             */
-/*   Updated: 2018/10/25 00:56:11 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/10 20:12:34 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		block_check(char *whole_file, int *i)
 	int		hash;
 
 	col = -1;
+	hash = 0;
 	while (++col < 4)
 	{
 		row = -1;
@@ -52,20 +53,23 @@ int		input_vld(char *whole_file)
 		if (block_check(whole_file, &i) == ERROR)
 			return (ERROR);
 		if (whole_file[i] == '\n' &&
-			(!whole_file[i + 1]) || whole_file[i + 1] == '\n')
+			((!whole_file[i + 1]) || whole_file[i + 1] == '\n'))
 			return (ERROR);
 		else if (whole_file[i] && whole_file[i] != '\n')
 			return (ERROR);
 		else if (!whole_file[i])
 			return (tetro_vld);
 	}
+	if (whole_file[i - 1] == '\n' && whole_file[i - 2] == '\n')
+		return (0);
+	return (tetro_vld);
 }
 
 int		tetro_vld(char *tetro_vld)
 {
 	int		i;
 	int		j;
-	int		*shape;
+	int		shape[4];
 
 	i = -1;
 	while (shape[++i])

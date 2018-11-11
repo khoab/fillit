@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ls_mod_strrchr.c                                   :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/19 20:54:42 by kbui              #+#    #+#             */
-/*   Updated: 2018/10/20 14:42:28 by kbui             ###   ########.fr       */
+/*   Created: 2018/11/10 10:26:04 by kbui              #+#    #+#             */
+/*   Updated: 2018/11/10 19:52:41 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char		*ls_mod_strrchr(const char *s, int c)
+double	ft_sqrt(double n)
 {
-	size_t	i;
+	double	x;
+	double	y;
+	double	e;
 
-	i = ft_strlen(s);
-	if (c == 0)
-		return ((char *)s + i);
-	while (i > 0)
+	x = n;
+	y = 1;
+	e = 0.000001;
+	while (x - y > e)
 	{
-		i--;
-		if (s[i] == c)
-			return ((char *)s + i + 1);
+		x = (x + y) / 2;
+		y = n / x;
 	}
-	return (NULL);
+	return (x);
 }

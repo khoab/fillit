@@ -6,7 +6,7 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 20:05:31 by kbui              #+#    #+#             */
-/*   Updated: 2018/10/25 20:53:21 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/10 20:07:46 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,42 @@
 #include "libft.h"
 #include "fillit.h"
 
+/*
+** I set min_row && min_col == 10 because size of the board never get bigger
+** than 10. Why? Because maximum of tetro_vld they give me will be 26 
+** and sqrt(26 * 4) == 10
+*/
+
 static void		make_point(t_tetro *tetro_struct, char **tetro_split)
 {
-	
+	int		i;
+	int		j;
+	int		min_row;
+	int		min_col;
+	int		point;
+
+	min_row = 10;
+	min_col = 10;
+	i = -1;
+	point = 0;
+	while (++i < 4 && (j = -1))
+		while (++j < 4)
+			if (tetro_split[i][j] == '#')
+			{
+				tetro_struct->point[point].x = i;
+				tetro_struct->point[point++].y = j;
+				min_row = i < min_row ? i : min_row;
+				min_col = j < min_col ? j : min_col;
+			}
+	i = -1;
+	while (++i < 4)
+	{
+		tetro_struct->point[i].x -= min_row;
+		tetro_struct->point[i].y -= min_col;
+	}
 }
 
-static char		*get_tetro_struct(char *tetro_blocki)
+static t_tetro	*get_tetro_struct(char *tetro_blocki)
 {
 	char		**tetro_split;
 	int			i;
@@ -38,35 +68,32 @@ static char		*get_tetro_struct(char *tetro_blocki)
 	make_point(tetro_struct, tetro_split);
 	i = -1;
 	while (tetro_split[++i])
-		ft_strdel(tetro_split[i]);
+		ft_strdel(&tetro_split[i]);
 	free(tetro_split);
 	return (tetro_struct);
 }
 
-static char		*create_board(t_tetro **tetro_list, int tetro_vld)
+static t_tetro	**get_tetro_list(char **tetro_block, int tetro_vld)
+{
+	t_tetro		**tetro_list;
+	int			i;
+
+	tetro_list = (t_tetro **)malloc(sizeof(**tetro_list) * (tetro_vld));
+	i = -1;
+	while (++i < tetro_vld)
+		tetro_list[i] = get_tetro_struct(tetro_block[i]);
+	return (tetro_list);
+}
+
+static t_board	*create_board(t_tetro **tetro_list, int tetro_vld)
 {
 	t_board		*board;
-	int			i;
-	int			j;
-	char		**board_state;
 
-	if (board = (t_board *)malloc(sizeof(*board)))
-		return (NULL);
+	board = (t_board *)malloc(sizeof(*board));
 	board->tetro_vld = tetro_vld;
 	board->size = (int)ft_sqrt(tetro_vld * 4);
 	board->tetro_list = tetro_list;
-	if (!(board_state = (char **)malloc(sizeof(**board_state) * board->size)))
-		return (NULL);
-	i = -1;
-	while (++i < board->size)
-	{
-		if (!(board_state[i] = ft_strnew(board->size + 1)))
-			return (NULL);
-		j = -1;
-		while (++j < board->size)
-			board_state[i][j] = '.';
-	}
-	board->broad_state = board_state;
+	board->board_state = new_board_state(board->size);
 	return (board);
 }
 
@@ -75,14 +102,9 @@ t_board			*get_board(char **tetro_block, int tetro_vld)
 	int			tetro_index;
 	t_board		*board;
 	t_tetro		**tetro_list;
-	int			i;
 
-	if (!(tetro_list = (char **)malloc(sizeof(tetro_list) * (tetro_vld))))
-		return (NULL);
-	i = -1;
-	while (++i < tetro_vld)
-		tetro_list[i] = get_tetro_struct(tetro_block[i]);
-	board = create_broad(tetro_list, tetro_vld);
+	tetro_list = get_tetro_list(tetro_block, tetro_vld);
+	board = create_board(tetro_list, tetro_vld);
 	tetro_index = 0;
 	while (!do_backtrack(board, tetro_index))
 		board_state_increase(board);

@@ -6,7 +6,7 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 01:38:29 by kbui              #+#    #+#             */
-/*   Updated: 2018/10/25 20:52:21 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/10 20:06:52 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ typedef	struct	s_tetro
 	t_point		point[4];
 }				t_tetro;
 
-typedef struct	s_board 
+typedef struct	s_board
 {
 	t_tetro		**tetro_list;
-	char		**broad_state;
+	char		**board_state;
 	int			size;
 	int			tetro_vld;
 }				t_board;
@@ -54,5 +54,8 @@ int				adv_vld(char **tetro_block);
 */
 
 t_board			*get_board(char **tetro_block, int tetro_vld);
+int				do_backtrack(t_board *board, int tetro_index);
+int				board_state_increase(t_board *board);
+char			**new_board_state(int size);
 
 #endif
