@@ -68,7 +68,8 @@ FILES		= ft_memset.c \
 				ft_strnlen.c \
 				ft_isfile.c \
 				ft_strswap.c \
-				ft_sqrt.c
+				ft_sqrt.c \
+				ft_strndup.c
 
 OBJ			= $(FILES:%.c=%.o)
 

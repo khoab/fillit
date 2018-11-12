@@ -6,17 +6,17 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 20:05:31 by kbui              #+#    #+#             */
-/*   Updated: 2018/11/10 20:07:46 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/11 21:32:50 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "fillit.h"
-
+#include <stdio.h>
 /*
 ** I set min_row && min_col == 10 because size of the board never get bigger
-** than 10. Why? Because maximum of tetro_vld they give me will be 26 
+** than 10. Why? Because maximum of tetro_vld they give me will be 26
 ** and sqrt(26 * 4) == 10
 */
 
@@ -32,7 +32,9 @@ static void		make_point(t_tetro *tetro_struct, char **tetro_split)
 	min_col = 10;
 	i = -1;
 	point = 0;
-	while (++i < 4 && (j = -1))
+	while (++i < 4)
+	{
+		j = -1;
 		while (++j < 4)
 			if (tetro_split[i][j] == '#')
 			{
@@ -41,6 +43,7 @@ static void		make_point(t_tetro *tetro_struct, char **tetro_split)
 				min_row = i < min_row ? i : min_row;
 				min_col = j < min_col ? j : min_col;
 			}
+	}
 	i = -1;
 	while (++i < 4)
 	{
@@ -78,10 +81,11 @@ static t_tetro	**get_tetro_list(char **tetro_block, int tetro_vld)
 	t_tetro		**tetro_list;
 	int			i;
 
-	tetro_list = (t_tetro **)malloc(sizeof(**tetro_list) * (tetro_vld));
+	tetro_list = (t_tetro **)malloc(sizeof(**tetro_list) * (tetro_vld + 1));
 	i = -1;
 	while (++i < tetro_vld)
 		tetro_list[i] = get_tetro_struct(tetro_block[i]);
+	tetro_list[i] = NULL;
 	return (tetro_list);
 }
 
@@ -108,5 +112,6 @@ t_board			*get_board(char **tetro_block, int tetro_vld)
 	tetro_index = 0;
 	while (!do_backtrack(board, tetro_index))
 		board_state_increase(board);
+	printf("Work\n");
 	return (board);
 }

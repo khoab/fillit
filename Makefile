@@ -6,7 +6,7 @@
 #    By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/10 19:55:44 by kbui              #+#    #+#              #
-#    Updated: 2018/11/10 20:00:10 by kbui             ###   ########.fr        #
+#    Updated: 2018/11/11 20:21:01 by kbui             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,7 @@ HEADER = includes
 
 SOURCES = backtracking.c \
 			board_maker.c \
-			check_input.c \
-			main.c
+			check_input.c
 			
 SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
 
@@ -44,6 +43,10 @@ $(NAME): $(OBJS)
 $(DIR_O)/%.o: $(DIR_S)/%.c $(HEADER)/fillit.h
 	@mkdir -p obj
 	@$(CC) $(FLAGS) -I $(HEADER) -o $@ -c $<
+	@$(CMP)
+
+$(CMP):
+	gcc -o fillit fillit.a main.c
 
 norme:
 	norminette ./libft/

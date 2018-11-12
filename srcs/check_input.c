@@ -6,7 +6,7 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 13:33:30 by kbui              #+#    #+#             */
-/*   Updated: 2018/11/10 20:12:34 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/11 21:16:56 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,32 @@ int		input_vld(char *whole_file)
 		return (0);
 	return (tetro_vld);
 }
-
+#include <stdio.h>
 int		tetro_vld(char *tetro_vld)
 {
 	int		i;
 	int		j;
-	int		shape[4];
+	int		list[4];
 
-	i = -1;
-	while (shape[++i])
-		shape[i] = 0;
+	i = 0;
+	while (i < 4)
+		list[i++] = 0;
 	i = -1;
 	j = 0;
-	while (tetro_vld[++i] && j < 4)
+	while (j < 4 && tetro_vld[++i])
+	{
+		if (tetro_vld[i] == '#' && i - 5 >= 0)
+			list[j] += (tetro_vld[i - 5] == '#') ? 1 : 0;
+		if (tetro_vld[i] == '#' && i + 5 <= 19)
+			list[j] += (tetro_vld[i + 5] == '#') ? 1 : 0;
+		if (tetro_vld[i] == '#' && i > 0)
+			list[j] += (tetro_vld[i - 1] == '#') ? 1 : 0;
+		if (tetro_vld[i] == '#' && i < 19)
+			list[j] += (tetro_vld[i + 1] == '#') ? 1 : 0;
 		if (tetro_vld[i] == '#')
-		{
-			if (i - 5 >= 0)
-				shape[j] += (tetro_vld[i - 5] == '#') ? 1 : 0;
-			if (i + 5 <= 19)
-				shape[j] += (tetro_vld[i + 5] == '#') ? 1 : 0;
-			if (i > 0)
-				shape[j] += (tetro_vld[i - 1] == '#') ? 1 : 0;
-			if (i < 19)
-				shape[j] += (tetro_vld[i + 1] == '#') ? 1 : 0;
 			j++;
-		}
-	if (shape[0] + shape[1] + shape[2] + shape[3] > 5)
+	}
+	if (list[0] + list[1] + list[2] + list[3] >= 6)
 		return (1);
 	return (ERROR);
 }

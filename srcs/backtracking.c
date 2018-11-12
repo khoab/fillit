@@ -6,23 +6,25 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 17:55:17 by kbui              #+#    #+#             */
-/*   Updated: 2018/11/10 20:19:09 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/11 21:40:54 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "fillit.h"
+#include <stdio.h>
 
 static void	remove_or_add(t_board *board, int tetro_index, t_point pos,
 												int remove_or_add)
 {
-	int		i;
-	char	c;
-	t_tetro	*tetro_struct;
+	int			i;
+	char		c;
+	t_tetro		*tetro_struct;
 
 	tetro_struct = board->tetro_list[tetro_index];
 	i = -1;
+	printf("Work\n");
 	c = (remove_or_add == 1) ? 'A' : '.';
 	while (++i < 4)
 		board->board_state[tetro_struct->point[i].x + pos.x]
@@ -52,7 +54,7 @@ char		**new_board_state(int size)
 	int		j;
 	char	**board_state;
 
-	board_state = (char **)malloc(sizeof(**board_state) * size);
+	board_state = (char **)malloc(sizeof(**board_state) * (size + 1));
 	i = -1;
 	while (++i < size)
 	{
@@ -61,22 +63,24 @@ char		**new_board_state(int size)
 		while (++j < size)
 			board_state[i][j] = '.';
 	}
+	board_state[i] = NULL;
 	return (board_state);
 }
 
 int			board_state_increase(t_board *board)
 {
-	char	**prev;
-	char	**curr;
-
-	prev = board->board_state;
-	while (*prev)
-	{
-		curr = prev + 1;
-		ft_strdel(prev);
-		prev = curr;
-	}
-	free(board->board_state);
+/*
+**	char	**prev;
+**	char	**curr;
+**
+**	printf("Work\n");
+**	while (*prev)
+**	{
+**		curr = prev + 1;
+**		ft_strdel(prev);
+**		prev = curr;
+**	}
+*/	free(board->board_state);
 	board->board_state = NULL;
 	board->size += 1;
 	board->board_state = new_board_state(board->size);
