@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include "./includes/fillit.h"
-#include "./includes/libft.h"
+#include "fillit.h"
+#include "libft.h"
 
 static char	*get_whole_file(char *filename)
 {
