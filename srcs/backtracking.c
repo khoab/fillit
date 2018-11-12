@@ -6,7 +6,7 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 17:55:17 by kbui              #+#    #+#             */
-/*   Updated: 2018/11/11 21:40:54 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/11 21:43:46 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ static void	remove_or_add(t_board *board, int tetro_index, t_point pos,
 	tetro_struct = board->tetro_list[tetro_index];
 	i = -1;
 	printf("Work\n");
+	/*
+	** It fucking segfault as some where I dont fucking know. But I knew that 
+	** it will only run for one fucking time only. Then if you redo it, it will
+	** not working anymore. So I need to fix that situation.
+	*/
 	c = (remove_or_add == 1) ? 'A' : '.';
 	while (++i < 4)
 		board->board_state[tetro_struct->point[i].x + pos.x]
