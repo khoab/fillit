@@ -6,7 +6,7 @@
 #    By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/10 19:55:44 by kbui              #+#    #+#              #
-#    Updated: 2018/11/12 16:12:50 by kbui             ###   ########.fr        #
+#    Updated: 2018/11/12 16:26:14 by kbui             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,9 +41,5 @@ fclean: clean
 	@make fclean -C libft
 
 re: fclean all
-
-do:
-	./fillit test/valid.fillit
-	./fillit test/invalid.fillit
 
 .PHONY: all clean fclean re
