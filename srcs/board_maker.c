@@ -6,14 +6,14 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 20:05:31 by kbui              #+#    #+#             */
-/*   Updated: 2018/11/11 21:32:50 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/12 16:21:14 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "fillit.h"
-#include <stdio.h>
+
 /*
 ** I set min_row && min_col == 10 because size of the board never get bigger
 ** than 10. Why? Because maximum of tetro_vld they give me will be 26
@@ -44,12 +44,7 @@ static void		make_point(t_tetro *tetro_struct, char **tetro_split)
 				min_col = j < min_col ? j : min_col;
 			}
 	}
-	i = -1;
-	while (++i < 4)
-	{
-		tetro_struct->point[i].x -= min_row;
-		tetro_struct->point[i].y -= min_col;
-	}
+	cut_off_space(tetro_struct, min_row, min_col);
 }
 
 static t_tetro	*get_tetro_struct(char *tetro_blocki)
@@ -112,6 +107,5 @@ t_board			*get_board(char **tetro_block, int tetro_vld)
 	tetro_index = 0;
 	while (!do_backtrack(board, tetro_index))
 		board_state_increase(board);
-	printf("Work\n");
 	return (board);
 }

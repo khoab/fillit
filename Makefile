@@ -6,64 +6,44 @@
 #    By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/10 19:55:44 by kbui              #+#    #+#              #
-#    Updated: 2018/11/11 20:21:01 by kbui             ###   ########.fr        #
+#    Updated: 2018/11/12 16:12:50 by kbui             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-C = clang
+NAME = fillit
+CFLAGS = -Wall -Wextra -Werror
+CC = gcc
 
-NAME = fillit.a
+SRCS_DIR = srcs/
+OBJS_DIR = objs/
 
-FLAGS = -Wall -Wextra -Werror -O2
+INCS = -I includes/
+SRCS = $(wildcard $(SRCS_DIR)*.c)
+LIBS = libft/libft.a
+OBJS = $(patsubst srcs/%.c, %.o, $(SRCS))
 
-LIBFT = libft
-
-DIR_S = srcs
-
-DIR_O = obj
-
-HEADER = includes
-
-SOURCES = backtracking.c \
-			board_maker.c \
-			check_input.c
-			
-SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
-
-OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@make -C $(LIBFT)
-	@cp libft/libft.a ./$(NAME)
-	@ar rc $(NAME) $(OBJS)
-	@ranlib $(NAME)
-
-$(DIR_O)/%.o: $(DIR_S)/%.c $(HEADER)/fillit.h
-	@mkdir -p obj
-	@$(CC) $(FLAGS) -I $(HEADER) -o $@ -c $<
-	@$(CMP)
-
-$(CMP):
-	gcc -o fillit fillit.a main.c
-
-norme:
-	norminette ./libft/
-	@echo
-	norminette ./$(HEADER)/
-	@echo
-	norminette ./$(DIR_S)/
+$(NAME):
+	@make -C libft
+	@$(CC) -g $(CFLAGS) -c $(SRCS) $(INCS)
+	@$(CC) -g -o $(NAME) $(OBJS) $(LIBS)
+	@mkdir -p $(OBJS_DIR)
+	@mv $(OBJS) $(OBJS_DIR)
 
 clean:
-	@rm -f $(OBJS)
-	@rm -rf $(DIR_O)
-	@make clean -C $(LIBFT)
+	@rm -rf $(OBJS_DIR)
+	@make clean -C libft
 
 fclean: clean
-	@rm -f $(NAME)
-	@make fclean -C $(LIBFT)
+	@rm -rf $(NAME)
+	@make fclean -C libft
 
 re: fclean all
 
-.PHONY: fclean re norme all clean
+do:
+	./fillit test/valid.fillit
+	./fillit test/invalid.fillit
+
+.PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: kbui <kbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 01:38:29 by kbui              #+#    #+#             */
-/*   Updated: 2018/11/10 20:06:52 by kbui             ###   ########.fr       */
+/*   Updated: 2018/11/12 16:20:24 by kbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int				adv_vld(char **tetro_block);
 */
 
 t_board			*get_board(char **tetro_block, int tetro_vld);
+void			cut_off_space(t_tetro *tetro_struct, int min_row, int min_col);
 int				do_backtrack(t_board *board, int tetro_index);
 int				board_state_increase(t_board *board);
 char			**new_board_state(int size);
